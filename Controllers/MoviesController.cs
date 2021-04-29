@@ -4,9 +4,8 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
-using System.Web.Mvc;
 using Movie_Management_Test.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Movie_Management_Test.Controllers
 {
@@ -25,14 +24,17 @@ namespace Movie_Management_Test.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                // After converting using upgrade assistant: return new StatusCodeResult(Http.StatusCode.BadRequest);
+
+                // A StatusCodeResult that when executed will produce a Bad Request (400) response.
+                return new BadRequestResult();
             }
 
             Movie movie = db.Movies.Find(id);
             
             if (movie == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             return View(movie);
@@ -49,7 +51,7 @@ namespace Movie_Management_Test.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Title,ReleaseDate,Genre,Price,Rating")] Movie movie)
+        public ActionResult Create([Bind("ID,Title,ReleaseDate,Genre,Price,Rating")] Movie movie)
         {
             if (ModelState.IsValid)
             {
@@ -66,12 +68,12 @@ namespace Movie_Management_Test.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new BadRequestResult();
             }
             Movie movie = db.Movies.Find(id);
             if (movie == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
             return View(movie);
         }
@@ -81,7 +83,7 @@ namespace Movie_Management_Test.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Title,ReleaseDate,Genre,Price,Rating")] Movie movie)
+        public ActionResult Edit([Bind("ID,Title,ReleaseDate,Genre,Price,Rating")] Movie movie)
         {
             if (ModelState.IsValid)
             {
@@ -97,12 +99,12 @@ namespace Movie_Management_Test.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new BadRequestResult();
             }
             Movie movie = db.Movies.Find(id);
             if (movie == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
             return View(movie);
         }
